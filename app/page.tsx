@@ -1,3 +1,4 @@
+"use client";
 import DemoWrapper from "@/components/DemoWrapper";
 import { useEffect, useState } from "react";
 
