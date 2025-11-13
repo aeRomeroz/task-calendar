@@ -2,10 +2,13 @@
 import DemoWrapper from "@/components/DemoWrapper";
 import { useEffect, useState } from "react";
 
-
+type Item = {
+  id: number;
+  name: string;
+};
 
 function Home() {
-  const [items, setItems] = useState<string[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
 
   useEffect(() => {
     async function fetchData() {
