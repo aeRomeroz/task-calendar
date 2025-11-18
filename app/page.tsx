@@ -1,6 +1,7 @@
 "use client";
 import DemoWrapper from "@/components/DemoWrapper";
 import { useEffect, useState } from "react";
+import { getItems } from "@/lib/api";
 
 type Item = {
   id: number;
@@ -8,32 +9,14 @@ type Item = {
 };
 
 function Home() {
-  const [items, setItems] = useState<Item[]>([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch("https://test.miocafehn.com/api/get-data.php");
-        const data = await res.json();
-
-        if (data.status === "success") {
-          setItems(data.data);
-        }
-      } catch (err) {
-        console.error('Error fetching data:', err);
-      }
-    }
-    fetchData();
-  }, []);
-
+  
+  const items = getItems();
 
   return (
     <main className="flex min-h-screen items-center justify-center">
       <div>
-        <h1>Items desde Freehostia</h1>
-        <ul>
-          {items.map(item => <li key={item.id}>{item.name}</li>)}
-        </ul>
+         <h1 className="text-2xl font-bold">Items</h1>
+            <pre>{JSON.stringify(items.data, null, 2)}</pre>
       </div>
       <DemoWrapper />
     </main>
