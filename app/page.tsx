@@ -13,9 +13,12 @@ function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch('http://test.miocafehn.com/api/get-data.php');
+        const res = await fetch("https://test.miocafehn.com/api/get-data.php");
         const data = await res.json();
-        setItems(data.items);
+
+        if (data.status === "success") {
+          setItems(data.data);
+        }
       } catch (err) {
         console.error('Error fetching data:', err);
       }
