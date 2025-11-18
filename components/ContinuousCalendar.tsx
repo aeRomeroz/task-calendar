@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-
+import { IoIosAddCircle } from 'react-icons/io';
+import { MdRunCircle, MdDirectionsRun } from "react-icons/md";
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -15,6 +16,13 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [selectedMonth, setSelectedMonth] = useState<number>(0);
   const monthOptions = monthNames.map((month, index) => ({ name: month, value: `${index}` }));
+  const [active, setActive] = useState(false);
+  const [activeDays, setActiveDays] = useState<Record<string, boolean>>({});
+
+  const toggleDay = (month: number, day: number) => {
+    const key = `${month}-${day}`;
+    setActiveDays(prev => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const scrollToDay = (monthIndex: number, dayIndex: number) => {
     const targetDayIndex = dayRefs.current.findIndex(
@@ -135,9 +143,18 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
                 </span>
               )}
               <button type="button" className="absolute right-2 top-2 rounded-full opacity-0 transition-all focus:opacity-100 group-hover:opacity-100">
-                <svg className="size-8 scale-90 text-blue-500 transition-all hover:scale-100 group-focus:scale-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                  <path fillRule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4.243a1 1 0 1 0-2 0V11H7.757a1 1 0 1 0 0 2H11v3.243a1 1 0 1 0 2 0V13h3.243a1 1 0 1 0 0-2H13V7.757Z" clipRule="evenodd"/>
-                </svg>
+                <IoIosAddCircle className="size-8 scale-90 text-blue-500 transition-all hover:scale-100 group-focus:scale-100" />
+              </button>
+              <button
+                type="button"
+                onClick={() => toggleDay(month, day)}
+                className="absolute right-10 top-2 rounded-full opacity-0 transition-all focus:opacity-100 group-hover:opacity-100"
+              >
+                { activeDays[`${month}-${day}`] ? (
+                  <MdRunCircle className="size-8 scale-90 text-green-500 transition-all hover:scale-100 group-focus:scale-100" /> 
+                ) : (
+                  <MdDirectionsRun className="size-8 scale-90 text-gray-500 transition-all hover:scale-100 group-focus:scale-100"/>
+                )}
               </button>
             </div>
           );
@@ -146,7 +163,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
     ));
 
     return calendar;
-  }, [year]);
+  }, [year, activeDays]);
 
   useEffect(() => {
     const calendarContainer = document.querySelector('.calendar-container');

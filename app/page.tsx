@@ -8,9 +8,9 @@ type Item = {
   name: string;
 };
 
-function Home() {
+async function Home() {
   
-  const items = getItems();
+  const items = await getItems();
 
   return (
     <main className="flex min-h-screen items-center justify-center">
