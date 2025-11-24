@@ -5,20 +5,20 @@
 ########################################
 
 # dependencies
-/node_modules
-/.pnp
+node_modules/
+.pnp
 .pnp.js
 .yarn/install-state.gz
 
 # testing
-/coverage
+coverage/
 
 # next.js
-/.next/
-/out/
+.next/
+out/
 
 # production
-/build
+build/
 
 # misc
 .DS_Store
@@ -65,8 +65,8 @@ iisexpress/
 *.log
 
 # Environment files
-backend/appsettings.Development.json
-backend/appsettings.Local.json
+**/appsettings.Development.json
+**/appsettings.Local.json
 
 # EF Core Migrations backup
 **/Migrations/*Designer.cs
@@ -91,7 +91,6 @@ backend/appsettings.Local.json
 ########################################
 
 .project
-*
 
 ########################################
 # OPTIONAL
