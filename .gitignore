@@ -1,5 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+########################################
+# FRONNTEND (react)
+########################################
+
 # dependencies
 /node_modules
 /.pnp
@@ -34,3 +38,65 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+########################################
+# BACKEND (.NET)
+########################################
+
+# Build results
+**/bin/
+**/obj/
+
+# ASP.NET scaffolding
+**/ScaffoldingReadMe.txt
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IIS generated files
+iisexpress/
+**/.vs/
+
+# Logs
+*.log
+
+# Environment files
+backend/appsettings.Development.json
+backend/appsettings.Local.json
+
+# EF Core Migrations backup
+**/Migrations/*Designer.cs
+
+# SQLite or local DB files (si usas BD local)
+*.db
+*.sqlite
+*.sqlite3
+
+########################################
+# VISUAL STUDIO
+########################################
+
+.vscode/
+.vs/
+*.cache
+*.dbmdl
+*.jfm
+
+########################################
+# DOTNET TOOLS
+########################################
+
+.project
+*
+
+########################################
+# OPTIONAL
+########################################
+
+# JetBrains Rider
+.idea/
+*.sln.iml
