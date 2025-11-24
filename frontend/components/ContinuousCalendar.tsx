@@ -18,6 +18,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
   const [selectedMonth, setSelectedMonth] = useState<number>(0);
   const monthOptions = monthNames.map((month, index) => ({ name: month, value: `${index}` }));
   const [active, setActive] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [activeDays, setActiveDays] = useState<Record<string, boolean>>({});
 
   const toggleDay = (month: number, day: number) => {
@@ -169,20 +170,18 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
                   {monthNames[month]}
                 </span>
               )}
-              <button type="button" className="absolute right-2 top-2 rounded-full opacity-0 transition-all focus:opacity-100 group-hover:opacity-100">
-                <IoIosAddCircle className="size-8 scale-90 text-blue-500 transition-all hover:scale-100 group-focus:scale-100" />
-              </button>
-              <button
-                type="button"
-                onClick={() => handleToggleTraining(day,month,year)}
-                className="absolute right-10 top-2 rounded-full opacity-0 transition-all focus:opacity-100 group-hover:opacity-100"
-              >
-                { activeDays[`${month}-${day}`] ? (
-                  <MdRunCircle className="size-8 scale-90 text-green-500 transition-all hover:scale-100 group-focus:scale-100" /> 
-                ) : (
-                  <MdDirectionsRun className="size-8 scale-90 text-gray-500 transition-all hover:scale-100 group-focus:scale-100"/>
-                )}
-              </button>
+              <div className="relative w-full h-full transition-all">
+                <button type="button" onClick={() => handleToggleTraining(day, month, year)} className='absolute right-2 top-2'>
+                  {activeDays[`${month}-${day}`] ? (
+                    <MdRunCircle className="size-8 scale-90 text-green-500 transition-all hover:scale-100" />
+                  ) : (
+                    <MdDirectionsRun className="size-8 scale-90 text-gray-500 transition-all hover:scale-100 opacity-0  group-hover:opacity-100 focus:opacity-100" />
+                  )}
+                </button>
+                <button type="button" className='opacity-0  group-hover:opacity-100 focus:opacity-100 absolute right-2 bottom-2'>
+                  <IoIosAddCircle className="size-8 scale-90 text-blue-500 transition-all hover:scale-100" />
+                </button>
+              </div>
             </div>
           );
         })}
@@ -224,6 +223,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
 
   useEffect(() => {
     const loadMonthActivities = async () => {
+      setLoading(true);
       const data = await fetchMonth(year, selectedMonth);
       const newActiveDays: Record<string, boolean> = {};
   
@@ -232,6 +232,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
       });
   
       setActiveDays(newActiveDays);
+      setLoading(false);
     };
   
     loadMonthActivities();
@@ -239,6 +240,12 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
 
   return (
     <div className="no-scrollbar calendar-container max-h-full overflow-y-scroll rounded-t-2xl bg-white pb-10 text-slate-800 shadow-xl">
+      {loading && (
+        <div className="absolute top-0 left-0 w-full h-full bg-white/70 flex items-center justify-center z-50">
+          Loading...
+        </div>
+      )}
+      
       <div className="sticky -top-px z-50 w-full rounded-t-2xl bg-white px-5 pt-7 sm:px-8 sm:pt-8">
         <div className="mb-4 flex w-full flex-wrap items-center justify-between gap-6">
           <div className="flex flex-wrap gap-2 sm:gap-3">
