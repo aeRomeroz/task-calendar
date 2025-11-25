@@ -20,6 +20,8 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeDays, setActiveDays] = useState<Record<string, boolean>>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDay, setSelectedDay] = useState<{day: number, month: number, year: number} | null>(null);
 
   const toggleDay = (month: number, day: number) => {
     const key = `${month}-${day}`;
@@ -86,6 +88,11 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
 
   const handlePrevYear = () => setYear((prevYear) => prevYear - 1);
   const handleNextYear = () => setYear((prevYear) => prevYear + 1);
+
+  const handleAddClick = (day: number, month: number, year: number) => {
+    setSelectedDay({ day, month, year });
+    setIsModalOpen(true);
+  };
 
   const handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const monthIndex = parseInt(event.target.value, 10);
@@ -178,7 +185,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
                     <MdDirectionsRun className="size-8 scale-90 text-gray-500 transition-all hover:scale-100 opacity-0  group-hover:opacity-100 focus:opacity-100" />
                   )}
                 </button>
-                <button type="button" className='opacity-0  group-hover:opacity-100 focus:opacity-100 absolute right-2 bottom-2'>
+                <button type="button" onClick={() => handleAddClick(day,month,year)} className='opacity-0  group-hover:opacity-100 focus:opacity-100 absolute right-2 bottom-2'>
                   <IoIosAddCircle className="size-8 scale-90 text-blue-500 transition-all hover:scale-100" />
                 </button>
               </div>
@@ -288,6 +295,36 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
       <div className="w-full px-5 pt-4 sm:px-8 sm:pt-6">
         {generateCalendar}
       </div>
+      {isModalOpen && selectedDay && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-lg p-6 w-80 max-w-full shadow-xl">
+            <h2 className="text-lg font-semibold mb-4">
+              Add Event for {monthNames[selectedDay.month]} {selectedDay.day}, {selectedDay.year}
+            </h2>
+            <textarea
+              className="w-full border rounded p-2 mb-4"
+              placeholder="Event description..."
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                onClick={() => {
+                  // Llamar a la función para guardar el evento 
+                  setIsModalOpen(false);
+                }}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
