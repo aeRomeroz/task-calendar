@@ -7,6 +7,6 @@ namespace api.Models
         public int Month { get; set; }
         public int Year { get; set; }
         public bool TrainingDone { get; set; }
-        public string? EventDescription { get; set; }
+        public List<Event>? Events { get; set; }
     }
 }

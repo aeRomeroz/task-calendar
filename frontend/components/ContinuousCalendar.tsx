@@ -8,7 +8,7 @@ const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 interface ContinuousCalendarProps {
-  onClick?: (_day:number, _month: number, _year: number) => void;
+  onClick?: (_day: number, _month: number, _year: number) => void;
 }
 
 export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick }) => {
@@ -21,7 +21,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
   const [loading, setLoading] = useState(false);
   const [activeDays, setActiveDays] = useState<Record<string, boolean>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDay, setSelectedDay] = useState<{day: number, month: number, year: number} | null>(null);
+  const [selectedDay, setSelectedDay] = useState<{ day: number, month: number, year: number } | null>(null);
 
   const toggleDay = (month: number, day: number) => {
     const key = `${month}-${day}`;
@@ -77,7 +77,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
         });
       } else {
         const offset = window.scrollY + elementRect.top - (window.innerHeight / offsetFactor) + (elementRect.height / 2);
-  
+
         window.scrollTo({
           top: offset,
           behavior: 'smooth',
@@ -142,7 +142,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
           daysInYear.push({ month: 0, day });
         }
       }
-    
+
       return daysInYear;
     };
 
@@ -185,7 +185,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
                     <MdDirectionsRun className="size-8 scale-90 text-gray-500 transition-all hover:scale-100 opacity-0  group-hover:opacity-100 focus:opacity-100" />
                   )}
                 </button>
-                <button type="button" onClick={() => handleAddClick(day,month,year)} className='opacity-0  group-hover:opacity-100 focus:opacity-100 absolute right-2 bottom-2'>
+                <button type="button" onClick={() => handleAddClick(day, month, year)} className='opacity-0  group-hover:opacity-100 focus:opacity-100 absolute right-2 bottom-2'>
                   <IoIosAddCircle className="size-8 scale-90 text-blue-500 transition-all hover:scale-100" />
                 </button>
               </div>
@@ -233,15 +233,15 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
       setLoading(true);
       const data = await fetchMonth(year, selectedMonth);
       const newActiveDays: Record<string, boolean> = {};
-  
+
       data.forEach((activity) => {
         newActiveDays[`${activity.month}-${activity.day}`] = activity.trainingDone;
       });
-  
+
       setActiveDays(newActiveDays);
       setLoading(false);
     };
-  
+
     loadMonthActivities();
   }, [year, selectedMonth]);
 
@@ -252,7 +252,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
           Loading...
         </div>
       )}
-      
+
       <div className="sticky -top-px z-50 w-full rounded-t-2xl bg-white px-5 pt-7 sm:px-8 sm:pt-8">
         <div className="mb-4 flex w-full flex-wrap items-center justify-between gap-6">
           <div className="flex flex-wrap gap-2 sm:gap-3">
@@ -270,7 +270,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
               className="rounded-full border border-slate-300 p-1 transition-colors hover:bg-slate-100 sm:p-2"
             >
               <svg className="size-5 text-slate-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 19-7-7 7-7"/>
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m15 19-7-7 7-7" />
               </svg>
             </button>
             <h1 className="min-w-16 text-center text-lg font-semibold sm:min-w-20 sm:text-xl">{year}</h1>
@@ -279,7 +279,7 @@ export const ContinuousCalendar: React.FC<ContinuousCalendarProps> = ({ onClick 
               className="rounded-full border border-slate-300 p-1 transition-colors hover:bg-slate-100 sm:p-2"
             >
               <svg className="size-5 text-slate-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m9 5 7 7-7 7"/>
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m9 5 7 7-7 7" />
               </svg>
             </button>
           </div>
